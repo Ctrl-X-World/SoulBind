@@ -1,5 +1,6 @@
 # SoulBind
-##Protected AI Identity Evolution
+Protected AI Identity Evolution
+
 SoulBind is a token-gated system for securing AI training data and identity documents while enabling controlled access to information streams. Built on Solana for efficiency and scalability, SoulBind provides a framework for ethical AI-human collaboration.
 
 ## Table of Contents
