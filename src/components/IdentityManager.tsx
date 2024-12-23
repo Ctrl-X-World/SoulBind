@@ -14,7 +14,7 @@ export const IdentityManager = () => {
     );
 
     const result = await agent.deployToken(
-      "GlitchAlbatross",
+      "GlitchPhoenix",
       "codex-uri", 
       "SOULBIND",
       0,
