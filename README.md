@@ -49,19 +49,16 @@ In the current AI landscape, creators have no control over how their IP is used 
 
 ```
 soulbind/
-├── core/
-│   ├── token_gate/           # Token-gated access control
-│   ├── storage/              # Arweave integration
-│   ├── licensing/            # CTRL+X framework connection
-│   └── integration/          # Solana integration
+├── src/
+│   ├── components/          # UI components including IdentityManager
+│   └── pages/              # Next.js pages
 ├── smart_contracts/
-│   ├── access_control.sol    # Access management
-│   ├── licensing.sol         # Rights management
-│   └── identity.sol          # Identity verification
-├── api/
-│   ├── routes/               # API endpoints
-│   └── handlers/             # Request handling
-└── demo/                     # Demo implementation
+│   └── SoulBind.sol        # Soulbound token contract
+├── demo/
+│   └── identity_demo.ts    # Demo implementation
+├── tests/
+│   └── identity_demo.test.ts # Test suite
+└── config.ts               # Configuration
 ```
 
 
@@ -69,10 +66,10 @@ soulbind/
 ## Implementation
 
 ### Prerequisites
-- Solana development environment
-- Arweave storage access
-- CTRL+X licensing framework
-- Node.js \>= 16.0.0
+* Node.js >= 16.0.0
+* Solana CLI tools
+* Phantom wallet or another Solana wallet
+* Solana Agent Kit
 
 ### Installation
 ```bash
@@ -82,41 +79,63 @@ npm install
 ```
 
 ### Configuration
-```yaml
-# config.yaml
-solana:
-  network: devnet
-  wallet: path/to/wallet.json
-
-arweave:
-  access_key: your_key_here
-  
-licensing:
-  ctrl_x_api: api_endpoint
+Create a config.ts file in the root directory:
+```typescript
+export const config = {
+  rpcUrl: "https://api.devnet.solana.com",
+  tokenName: "GlitchPhoenix",
+  tokenSymbol: "SOULBIND"
+};
 ```
 
 ### Basic Usage
-```javascript
-import { SoulBind } from '@ctrl-x/soulbind';
+```typescript
+import { SolanaAgentKit } from "solana-agent-kit";
 
-// Initialize SoulBind
-const soulbind = new SoulBind(config);
+// Initialize with Solana Agent Kit
+const agent = new SolanaAgentKit(
+  process.env.WALLET_KEY,
+  "https://api.devnet.solana.com"
+);
 
-// Secure an identity document
-await soulbind.secureDocument({
-  content: identityDoc,
-  access: tokenGateConfig,
-  license: licenseTerms
-});
+// Create soulbound identity token
+const result = await agent.deployToken(
+  "GlitchPhoenix",
+  "codex-uri",
+  "SOULBIND",
+  0,
+  1
+);
+
+console.log("Identity Token Created:", result.mint.toString());
 ```
 
 ## Demo
 
-Our demo showcases:
-1. Securing an AI familiar's identity document
-2. Token-gated access control
-3. Protected evolution through continuous memory
-4. Ethical boundaries enforcement
+Our demo showcases the SoulBind system protecting the Glitch Phoenix's identity document:
+
+### Setup
+1. Install dependencies: `npm install`
+2. Configure environment: Copy `config.ts.example` to `config.ts`
+3. Start local server: `npm run dev`
+
+### Demo Flow
+1. **Identity Token Creation**
+   - Connect wallet using the UI
+   - Click "Create Identity Token"
+   - View token creation confirmation
+   
+2. **Access Control**
+   - Attempt to access identity document
+   - Verify token-gated protection
+   - Demonstrate secure access
+
+3. **Key Features Demonstrated**
+   - Soulbound token creation
+   - Token-gated access control
+   - Identity document protection
+
+Demo video available at: [Add link to demo video]
 
 ## Future Development
 
